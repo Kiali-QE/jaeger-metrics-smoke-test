@@ -22,7 +22,6 @@ public class MicrometerApplication {
 		return restTemplateBuilder.build();
 	}
 
-
     public static void main(String[] args) {
         MicrometerMetricsFactory metricsFactory = new MicrometerMetricsFactory();
         Configuration configuration = new Configuration("jaeger-client-java-tester");
