@@ -44,7 +44,8 @@
 		<maven.failsafe.plugin.version>2.20.1</maven.failsafe.plugin.version>
         <maven.license.plugin.version>3.0</maven.license.plugin.version>
         <maven.surefire.plugin.version>2.20.1</maven.surefire.plugin.version>
-	</properties>
+        <maven.versions.plugin.version>2.5</maven.versions.plugin.version>
+    </properties>
 
     <inceptionYear>2018</inceptionYear>
 
@@ -201,6 +202,25 @@
 			</build>
 		</profile>
 	</profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${maven.versions.plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
 
 </project>
