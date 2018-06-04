@@ -1,0 +1,1 @@
+# Jaeger Metrics Smoke Test
