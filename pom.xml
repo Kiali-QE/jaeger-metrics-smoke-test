@@ -220,13 +220,6 @@
 									<goal>helm</goal>
 									<goal>build</goal>
 								</goals>
-								<configuration>
-									<enricher>
-										<excludes>
-											<exclude>spring-boot-health-check</exclude>
-										</excludes>
-									</enricher>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
