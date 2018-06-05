@@ -14,6 +14,7 @@
 package io.jaegertracing.qe.micrometer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,16 +69,44 @@ public class SimpleMetricsTest {
     }
 
 
-    // TODO
-
     @Test
-    public void check() throws IOException, MalformedURLException {
+    public void testMetricsExist() throws IOException, MalformedURLException {
         Map<String, Double> metricCounts = getMetrics();
         List<String> metricNames = new ArrayList<>(metricCounts.keySet());
         Collections.sort(metricNames);
         assertEquals(expectedMetricNames, metricNames);
     }
 
+    @Test
+    public void simpleMetricsCountTest() throws InterruptedException, IOException, MalformedURLException {
+        Map<String, Double> metricCounts = getMetrics();
+        final Double startStartedSpansTotal = metricCounts.get("jaeger:started_spans_total{sampled=\"y\",}");
+        final Double startTracesTotal = metricCounts.get("jaeger:traces_total{sampled=\"y\",state=\"started\",}");
+        final Double startFinishedSpansTotal = metricCounts.get("jaeger:finished_spans_total");
+
+        String helloUrlString = TARGET_URL + "/hello";
+        URL helloUrl = new URL(helloUrlString);
+        final int iterations = 10;
+        for (int i = 0; i < iterations; i++) {
+            HttpURLConnection connection = (HttpURLConnection) helloUrl.openConnection();
+            logger.debug("Got response " + connection.getResponseCode() + " from " + helloUrlString);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line = bufferedReader.readLine();
+            logger.debug("line: " + line);
+            bufferedReader.close();
+        }
+
+        Thread.sleep(2000);  //  sleep at least for FLUSH interval;
+        metricCounts = getMetrics();
+
+        Double endStartedSpansTotal = metricCounts.get("jaeger:started_spans_total{sampled=\"y\",}");
+        Double endTracesTotal = metricCounts.get("jaeger:traces_total{sampled=\"y\",state=\"started\",}");
+        Double endFinishedSpansTotal = metricCounts.get("jaeger:finished_spans_total");
+
+        assertTrue(endFinishedSpansTotal >= startFinishedSpansTotal + iterations);
+        assertTrue(endStartedSpansTotal >= startStartedSpansTotal + iterations);
+        assertTrue(endTracesTotal >= startTracesTotal + iterations);
+    }
 
     private Map<String, Double> getMetrics() throws IOException, MalformedURLException {
         String urlString = TARGET_URL + "/actuator/prometheus";
