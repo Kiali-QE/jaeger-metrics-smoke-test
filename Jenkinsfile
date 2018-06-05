@@ -35,9 +35,9 @@ pipeline {
                     pwd
                     ls -alF
                     mvn --activate-profiles openshift -DskipITs clean fabric8:deploy
+                    openshiftVerifyService apiURL: '', authToken: '', namespace: '', svcName: 'jaeger-micrometer-smoke-tests', verbose: 'true'
                     export TARGET_URL="http://"`oc get route jaeger-micrometer-smoke-tests --output=go-template={{.spec.host}}`
                     echo ${TARGET_URL}
-                    sleep 20
                     mvn verify
                 '''
             }
