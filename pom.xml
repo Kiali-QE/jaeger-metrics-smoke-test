@@ -43,7 +43,7 @@
         <checkstyle.version>8.10.1</checkstyle.version>
         <fabric8.maven.plugin.version>3.5.38</fabric8.maven.plugin.version>
 		<java.version>1.8</java.version>
-		<jaeger.version>0.28.0</jaeger.version>
+		<jaeger.version>0.29.0</jaeger.version>
         <maven.checkstyle.plugin.version>2.17</maven.checkstyle.plugin.version>
         <maven.failsafe.plugin.version>2.20.1</maven.failsafe.plugin.version>
         <maven.license.plugin.version>3.0</maven.license.plugin.version>
