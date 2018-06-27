@@ -50,6 +50,7 @@ public class SimpleMetricsTest {
         expectedMetricNames.add("jaeger:baggage_updates_total{result=\"err\",}");
         expectedMetricNames.add("jaeger:baggage_updates_total{result=\"ok\",}");
         expectedMetricNames.add("jaeger:finished_spans_total");
+        expectedMetricNames.add("jaeger:reporter_queue_length");
         expectedMetricNames.add("jaeger:reporter_spans_total{result=\"dropped\",}");
         expectedMetricNames.add("jaeger:reporter_spans_total{result=\"err\",}");
         expectedMetricNames.add("jaeger:reporter_spans_total{result=\"ok\",}");
